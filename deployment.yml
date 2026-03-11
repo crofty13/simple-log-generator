@@ -1,22 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: log-generator
+  name: checkout
   labels:
-    app: log-generator
+    app: checkout
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: log-generator
+      app: checkout
   template:
     metadata:
+      annotations:
+        elastic.co/dataset: kubernetes.container_logs.checkout
+        elastic.co/namespace: checkout
+        elastic.co/preserve_original_event: "true"
       labels:
-        app: log-generator
+        app: checkout
     spec:
       containers:
-        - name: log-generator
-          image: log-generator:v4
+        - name: checkout
+          image: log-generator:v5
           imagePullPolicy: IfNotPresent
           stdin: true
           tty: true
